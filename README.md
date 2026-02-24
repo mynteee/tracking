@@ -1,68 +1,39 @@
-Hospital Asset Tracking System
+# espresense to aws iot bridge (simple and explicit)
 
-this is the repo for asset tracking system for Parkwood Institute. they have medical equipment that moves around the hospital and they can't find it
+this repo is a practical setup for:
 
-we are:
+1. esp32 running espresense firmware
+2. local mosquitto broker
+3. mosquitto bridge to aws iot core over tls
+4. clear debug scripts so you can see each step working
 
-tracking mobile assets like portable medical devices, maintenance equipment, carts etc. that get moved between units. 
-- takes time to find equipment
-- people waste time looking for things
-- higher chance of theft/loss
+nothing here is hidden behind frameworks. every script is short and readable.
 
-requirements from the project brief
+## repo layout
 
-- tracking methods: RFID, BLE, QR codes etc
-- ease of use so no onboarding friction
-- privacy and infection prevention 
-- power management (batteries, maintenance, etc)
-- find out if we should buy something or build it ourselves
+- `config/.env.example`: all values you edit
+- `config/mosquitto.bridge.conf.template`: plain mosquitto bridge template
+- `scripts/check-config.js`: checks your env values and file paths
+- `scripts/build-mosquitto-config.js`: generates final mosquitto bridge config
+- `scripts/watch-local-mqtt.js`: watches local espresense mqtt traffic
+- `scripts/send-sample-message.js`: sends a fake espresense message for testing
+- `docs/setup.md`: full setup from zero
+- `docs/troubleshooting.md`: common issues and quick fixes
 
- project structure
+## quick start
 
-```
-tracking-a/
-├── src/                    # frontend stuff (react)
-├── software/backend/       # backend API (not built yet)
-├── hardware/              # hardware designs
-├── firmware/              # firmware code
-├── docs/                  # documentation
-└── testing/               # tests
-```
-
-setup
-
-you need node.js and npm installed
-
-```bash
+```powershell
 npm install
-npm run dev
+copy-item config/.env.example .env
+# edit .env with your real values
+npm run check
+npm run build:mosquitto
 ```
 
-runs on localhost:3000
+after that, follow [setup guide](docs/setup.md).
 
-## backend
+## notes
 
-we need to build a backend that does:
-- gets data from tracking devices (RFID, BLE, QR codes)
-- tracks locations in real time
-- manage assets (add/edit/delete)
-- user auth
-- analytics and reports
-- integrate with hospital systems maybe
-
-haven't decided on tech stack yet. probably node.js or java. database TBD.
-
-## other stuff to think about
-
-- privacy 
-- power management (battery life, charging stations)
-- make it work with existing workflow
-- inexpensive
-
-resources
-
-https://www.canhealth.com/2025/11/05/st-joes-hamilton-adopts-tech-for-equipment-tracking/
-
-## contributing
-
-this is a student project for Parkwood Institute. we're still figuring stuff out so things might change.
+- this repo does not flash firmware for you. you do that from the espresense web installer.
+- this repo does not manage aws resources automatically. the guide walks you through console setup so you can see every piece.
+- keep your cert files private and never commit `.env`.

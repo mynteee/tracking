@@ -1,0 +1,22 @@
+# this file is used by scripts/build-mosquitto-config.js
+# real placeholders are wrapped in double braces and replaced from .env
+
+listener {{LOCAL_MQTT_PORT}}
+allow_anonymous false
+password_file {{MOSQUITTO_PASSWORD_FILE_PATH}}
+
+connection {{MOSQUITTO_BRIDGE_NAME}}
+address {{AWS_IOT_ENDPOINT}}:{{AWS_IOT_PORT}}
+bridge_cafile {{AWS_ROOT_CA_PATH}}
+bridge_certfile {{AWS_CERT_PATH}}
+bridge_keyfile {{AWS_PRIVATE_KEY_PATH}}
+
+# keep bridge behavior simple and stable
+cleansession true
+start_type automatic
+notifications false
+try_private false
+bridge_insecure false
+
+# forward espresense data to aws
+topic espresense/devices/# out 0

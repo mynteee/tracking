@@ -1,8 +1,4 @@
-# Documentation
+# docs index
 
-Project documentation goes here.
-
-- Requirements documents
-- Design documents
-- Research findings
-- Project reports
+- [setup guide](setup.md)
+- [troubleshooting](troubleshooting.md)
